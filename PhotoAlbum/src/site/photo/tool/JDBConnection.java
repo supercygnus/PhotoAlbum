@@ -63,8 +63,33 @@ public class JDBConnection {
 		return rs;
 	}
 	
+	public void closeConnection(){
+		if(conn!=null){
+			try{
+				conn.close();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		conn=null;
+	}
+	
 	public static void main(String[] args){
-		JDBConnection jc=new JDBConnection();
-		System.out.println(jc.createConnection());
+		//JDBConnection jc=new JDBConnection();
+		//System.out.println(jc.createConnection());
+		
+		try{
+			int a=100;
+			int b=a/0;
+		}
+		catch(Exception e){
+			//e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		finally{
+			System.out.println("finally");
+		}
+		System.out.println("end");
 	}
 }
