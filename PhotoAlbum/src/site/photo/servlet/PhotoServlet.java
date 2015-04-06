@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import site.photo.dao.OperationData;
+import site.photo.model.Photo;
 
 /**
  * Servlet implementation class PhotoServlet
@@ -36,9 +37,12 @@ public class PhotoServlet extends HttpServlet {
 		if(action.equals("forward_index")){
 			this.forward_index(request, response);
 		}
-		//else if(){
-			
-		//}
+		else if(action.equals("queryPhotoList")){
+			this.queryPhotoList(request, response);
+		}
+		else if(action.equals("queryOnePhoto")){
+			this.queryOnePhoto(request, response);
+		}
 	}
 	protected void forward_index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List list=new OperationData().queryPhotoList();
@@ -51,5 +55,18 @@ public class PhotoServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.doGet(request, response);
 	}
-
+	protected void queryPhotoList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+	protected void queryOnePhoto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int id=Integer.parseInt(request.getParameter("id"));
+		String condition="id='"+id+"'";
+		List list=new OperationData().photo_queryList(condition);
+		Photo photo=null;
+		if(list.size()==1){
+			photo=(Photo) list.get(0);
+		}
+		request.setAttribute("photo", photo);
+		request.getRequestDispatcher("photoShow.jsp").forward(request, response);
+	}
 }
